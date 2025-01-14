@@ -14,6 +14,31 @@ from tabulate import tabulate
 from distutils.dir_util import copy_tree
 
 
+# builds program file string
+def get_ex(ch, ex):
+    return f"./ch{ch}/ex-{ch}.{ex}.c"
+
+
+# builds program test file string
+def get_in(ch, ex):
+    if (ch == 1):
+        if (ex == 9):
+            return "./ch1/spaces.test"
+        elif (ex == 13 or ex == 14):
+            return "./ch1/words.test"
+        elif (ex == 17):
+            return "./ch1/long.test"
+        elif (ex == 20):
+            return "./ch1/tabs.test"
+        else:
+            return "./ch1/input.test"
+    else:
+        return "placeholder"
+
+# builds expected output file string
+def get_out(ch, ex):
+    return f"./ch{ch}/expected-{ch}.{ex}"
+
 # reads a file
 def read(filename):
     f = open(filename, 'r')

@@ -1,34 +1,19 @@
 #include <stdio.h>
 
-// cuenta blanks=nb, tabs=nt, newlines=nl
+// nb -> espacios
+// nt -> tabs
+// nl -> newlines
 int main(){ 
   long nb = 0;
   long nt = 0;
   long nl = 0;
 
+  /* Escribe tu codigo aqui abajo */
 
 
-  int charr;
-  while ((charr = getchar()) != EOF)
-  {
-    if (charr == ' ')
-    {
-      ++nb;
-    }
-    else if (charr == '\t')
-    {
-      ++nt;
-    }
-    else if (charr == '\n')
-    {
-      ++nl;
-    }
-  }
+  /* Escribe tu codigo aqui arriba */
 
-printf("blanks: %ld tabs: %ld newlines: %ld\n ", nb, nt, nl);
-
-
-return 0;
-
-
+  // No modifiques el print
+  printf("blanks: %ld tabs: %ld newlines: %ld", nb, nt, nl);
+  return 0;
 }

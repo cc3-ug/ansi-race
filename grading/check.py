@@ -6,93 +6,64 @@ import argparse
 # 195 MiB of memory
 BYTES = 195 * 1024 * 1024
 
-ch1_ex =  ['ex-1.8.c']
-ch1_in =  ['input.test']
-ch1_out = ['ex108.expected']
-
-def check_ex1(index):
+def check_exercise(ch, ex):
     try:
-        print('index: ', index)
-
         # compile
-        task = utils.compile(target='./ch1/' + ch1_ex[index])
+        task = utils.compile(target=utils.get_ex(ch, ex))
         if task.returncode != 0:
             return (0, utils.failed('compilation error'), task.stderr.decode().strip())
         
         # run test
-        task = utils.run_program(command='cat ./ch1/' + ch1_in[index] + ' | ./a.out')
+        task = utils.run_program(command='cat ' + utils.get_in(ch, ex) + ' | ./a.out')
         if task.returncode != 0:
             print( task.stderr.decode().strip() )
             return (0, utils.failed('runtime error'), task.stderr.decode().strip())
         
         # output
         output = task.stdout.decode().strip()
-        f = open('./ch1/' + ch1_out[index], 'r')
+        f = open(utils.get_out(ch, ex), 'r')
         expected = f.read().strip()
         f.close()
 
-        if output == expected:
-            return (9.1, utils.passed(), '')
+        points = 0
+        if (ch == 1):
+            points = 10
         else:
-            return (0, utils.failed('Error in ex 1.8'), '')
+            points = -1
+
+        if output == expected:
+            return (points, utils.passed(), '')
+        else:
+            return (0, utils.failed(f"Error in chapter {ch} exercise {ex}"), '')
     except subprocess.TimeoutExpired:
         return(0, utils.failed('timeout'), '')
     except Exception as e:
         print(e)
         return(0, utils.failed('some other error ocurred'), '')
-
-def check_ex108():
-    try:
-        # compile
-        task = utils.compile(target='./ch1/ex-1.8.c')
-        if task.returncode != 0:
-            return (0, utils.failed('compilation error'), task.stderr.decode().strip())
-        
-        # run test
-        task = utils.run_program(command='cat ./ch1/input.test | ./a.out')
-        if task.returncode != 0:
-            print( task.stderr.decode().strip() )
-            return (0, utils.failed('runtime error'), task.stderr.decode().strip())
-        
-        # output
-        output = task.stdout.decode().strip()
-        f = open('./ch1/ex108.expected', 'r')
-        expected = f.read().strip()
-        f.close()
-
-        if output == expected:
-            return (9.1, utils.passed(), '')
-        else:
-            return (0, utils.failed('Error in ex 1.8'), '')
-    except subprocess.TimeoutExpired:
-        return(0, utils.failed('timeout'), '')
-    except Exception as e:
-        print(e)
-        return(0, utils.failed('some other error ocurred'), '')
-
-
 
 
 
 def ch1(all=False):
-    not_found = utils.expected_files(['./ch1/ex-1.8.c', './ch1/input.test'])
+    exercises = [8, 9, 10, 12, 13, 14, 15, 17, 19, 20]
+    not_found = utils.expected_files(['./ch1/ex-1.8.c'])
 
     if len(not_found) == 0:
         table = []
 
-        ex108 = check_ex1(0)
-        table.append(['ex 1.8', ex108[0], ex108[1]])
-
         grade = 0
-        grade += ex108[0]
-
         errors = ''
-        errors += '\n' + utils.create_error('ex 1.8', ex108[2])
+
+        for ex in exercises:
+            res = check_exercise(1, ex)
+            table.append([f"ex 1.{ex}", res[0], res[1]])
+            grade += res[0]
+            errors += '\n' + utils.create_error(f"ex 1.{ex}", res[2])
 
         errors = errors.strip()
         grade = min(grade, 100)
         report = utils.report(table)
         print(report)
+        
         if errors != '':
             report += '\n\nMore Info:\n\n' + errors
         
@@ -100,6 +71,7 @@ def ch1(all=False):
             return grade
         else:
             utils.write_result(grade, report, 'chapter1.json')
+            return grade
 
     else:
         utils.write_result(0, 'missing files in chapter 1: %s' % (','.join(not_found)), 'chapter1.json')
@@ -130,9 +102,11 @@ if __name__ == '__main__':
         ch5_grade = ch5(all=True)
         '''
 
-        print(ch1_grade)
+        print(f"\nGrade for chapter 1: {ch1_grade}")
     elif args.chapter1:
-        print("placeholder")
+        grade = ch1()
+        print(f"\nGrade for chapter 1: {grade}")
+        print(f"\nResults saved to chapter1.json")
     elif args.chapter2:
         print("placeholder")
     elif args.chapter3:
