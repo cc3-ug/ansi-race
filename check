@@ -11,5 +11,7 @@
   }
 
   title
-  python3 grading/check.py -chapter2
+  
+  chapter="$1"
+  python3 grading/check.py "$chapter"
 }

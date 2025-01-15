@@ -28,7 +28,7 @@ def check_exercise(ch, ex):
         points = 0
         if (ch == 1):
             points = 10
-        elif (ch == 2) or (ch == 3):
+        elif (ch == 2) or (ch == 3) or (ch == 4):
             points = 33.34
         else:
             points = -1
@@ -153,6 +153,41 @@ def ch3(all=False):
 
 
 
+def ch4(all=False):
+    exercises = ['index', 'swap', 'atof']
+    not_found = utils.expected_files([])
+
+    if len(not_found) == 0:
+        table = []
+
+        grade = 0
+        errors = ''
+
+        for ex in exercises:
+            res = check_exercise(4, ex)
+            table.append([f"ex 4.{ex}", res[0], res[1]])
+            grade += res[0]
+            errors += '\n' + utils.create_error(f"ex 4.{ex}", res[2])
+
+        errors = errors.strip()
+        grade = min(grade, 100)
+        report = utils.report(table)
+        print(report)
+        
+        if errors != '':
+            report += '\n\nMore Info:\n\n' + errors
+        
+        if all:
+            return grade
+        else:
+            utils.write_result(grade, report, 'chapter4.json')
+            return grade
+
+    else:
+        utils.write_result(0, 'missing files in chapter 4: %s' % (','.join(not_found)), 'chapter4.json')
+
+
+
 if __name__ == '__main__':
     resource.setrlimit(resource.RLIMIT_AS, (BYTES, BYTES))
 
@@ -161,21 +196,20 @@ if __name__ == '__main__':
     parser.add_argument('-chapter2', action='store_true', help="Chapter 2 selected")
     parser.add_argument('-chapter3', action='store_true', help="Chapter 3 selected")
     parser.add_argument('-chapter4', action='store_true', help="Chapter 4 selected")
-    parser.add_argument('-chapter5', action='store_true', help="Chapter 5 selected")
     parser.add_argument('-all', action='store_true', help="All chapters selected")
 
     args = parser.parse_args()
 
     if args.all:
         ch1_grade = ch1(all=True)
-        '''
         ch2_grade = ch2(all=True)
         ch3_grade = ch3(all=True)
         ch4_grade = ch4(all=True)
-        ch5_grade = ch5(all=True)
-        '''
 
         print(f"\nGrade for chapter 1: {ch1_grade}")
+        print(f"\nGrade for chapter 2: {ch2_grade}")
+        print(f"\nGrade for chapter 3: {ch3_grade}")
+        print(f"\nGrade for chapter 4: {ch4_grade}")
     elif args.chapter1:
         grade = ch1()
         print(f"\nGrade for chapter 1: {grade}")
@@ -189,10 +223,12 @@ if __name__ == '__main__':
         print(f"\nGrade for chapter 3: {grade}")
         print(f"\nResults saved to chapter3.json")
     elif args.chapter4:
-        print("placeholder")
+        grade = ch4()
+        print(f"\nGrade for chapter 4: {grade}")
+        print(f"\nResults saved to chapter4.json")
     elif args.chapter5:
         print("placeholder")
     else:
-        print("No chapter selected. Use -chapter1, -chapter2, -chapter3, -chapter4, -chapter5, or -all to selected a chapter.")
+        print("No chapter selected. Use -chapter1, -chapter2, -chapter3, -chapter4, or -all to selected a chapter.")
     
     utils.fix_ownership()
