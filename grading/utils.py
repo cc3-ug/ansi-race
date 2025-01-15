@@ -35,7 +35,7 @@ def get_in(ch, ex):
     elif (ch == 2):
         return "placeholder.test"
     else:
-        return "placeholder"
+        return "placeholder.test"
 
 # builds expected output file string
 def get_out(ch, ex):

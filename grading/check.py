@@ -28,7 +28,7 @@ def check_exercise(ch, ex):
         points = 0
         if (ch == 1):
             points = 10
-        elif (ch == 2):
+        elif (ch == 2) or (ch == 3):
             points = 33.34
         else:
             points = -1
@@ -118,6 +118,41 @@ def ch2(all=False):
 
 
 
+def ch3(all=False):
+    exercises = ['expand', 'itoa', 'itob']
+    not_found = utils.expected_files([])
+
+    if len(not_found) == 0:
+        table = []
+
+        grade = 0
+        errors = ''
+
+        for ex in exercises:
+            res = check_exercise(3, ex)
+            table.append([f"ex 3.{ex}", res[0], res[1]])
+            grade += res[0]
+            errors += '\n' + utils.create_error(f"ex 3.{ex}", res[2])
+
+        errors = errors.strip()
+        grade = min(grade, 100)
+        report = utils.report(table)
+        print(report)
+        
+        if errors != '':
+            report += '\n\nMore Info:\n\n' + errors
+        
+        if all:
+            return grade
+        else:
+            utils.write_result(grade, report, 'chapter3.json')
+            return grade
+
+    else:
+        utils.write_result(0, 'missing files in chapter 3: %s' % (','.join(not_found)), 'chapter3.json')
+
+
+
 if __name__ == '__main__':
     resource.setrlimit(resource.RLIMIT_AS, (BYTES, BYTES))
 
@@ -150,7 +185,9 @@ if __name__ == '__main__':
         print(f"\nGrade for chapter 2: {grade}")
         print(f"\nResults saved to chapter2.json")
     elif args.chapter3:
-        print("placeholder")
+        grade = ch3()
+        print(f"\nGrade for chapter 3: {grade}")
+        print(f"\nResults saved to chapter3.json")
     elif args.chapter4:
         print("placeholder")
     elif args.chapter5:

@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+
+
+
+/*
+  El capitulo 3 explica una funcion llamada itob (note que esta termina con b)
+  Esta es una modificacion de la funcion itoa
+  En lugar de siempre usar base 10, tenemos un parametro que nos indica cual base usar
+  
+  Para probarla usaremos bases 2, 8, 10 y 16
+  Los numeros en base 8 se veran algo asi: 123 (NO diran 0 al inicio como se acostumbra)
+  Los numeros en base 16 se veran algo asi: 12ab (NO diran 0x al inicio como se acostumbra, usaremos minusculas unicamente)
+*/
+
+/* Escriba aqui su funcion itob */
+// Asuma que n siempre sera positivo
+// Asuma que el arreglo s tiene suficiente espacio para colocar su respuesta
+// Asuma que base unicamente puede ser 2, 8, 10 o 16
+
+void miitob(int n, char s[], int base){
+  
+}
+
+
+
+/* No modifique este main */
+int main () {
+  char s[1000];
+  miitob(32, s, 8); printf("%s\n", s);
+  miitob(55555, s, 8);printf("%s\n", s);
+  miitob(160, s, 16);printf("%s\n", s);
+  miitob(555555, s, 16);printf("%s\n", s);
+  miitob(15, s, 2);printf("%s\n", s);
+  miitob(555, s, 2);printf("%s\n", s);
+}

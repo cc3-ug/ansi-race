@@ -11,5 +11,5 @@
   }
 
   title
-  python3 grading/check.py -all
+  python3 grading/check.py -chapter3
 }
