@@ -32,6 +32,8 @@ def get_in(ch, ex):
             return "./ch1/tabs.test"
         else:
             return "./ch1/input.test"
+    elif (ch == 2):
+        return "placeholder.test"
     else:
         return "placeholder"
 
